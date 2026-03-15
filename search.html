@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>搜尋 | 宏達升學教育機構</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { primary: { DEFAULT: '#1a5f4a', light: '#2d8a6e' } } } } }</script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="sticky top-0 z-50 border-b bg-white">
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
+      <a href="index.html" class="text-xl font-bold text-primary">宏達升學教育機構</a>
+      <nav class="hidden md:flex items-center gap-6">
+        <a href="login.html" class="text-gray-600 hover:text-primary">會員登入</a>
+        <a href="courses.html" class="text-gray-600 hover:text-primary">課程列表</a>
+        <a href="news.html" class="text-gray-600 hover:text-primary">最新消息</a>
+        <form action="search.html" method="get" class="inline-flex items-center">
+          <input type="search" name="q" id="header-search-q" placeholder="搜尋課程、文章…" class="rounded-l border border-gray-300 px-2 py-1.5 text-sm w-36 focus:outline-none focus:border-primary" />
+          <button type="submit" class="rounded-r border border-l-0 border-gray-300 bg-gray-100 px-2 py-1.5 text-sm text-gray-600 hover:bg-gray-200">搜尋</button>
+        </form>
+        <a href="cart.html" class="text-gray-600 hover:text-primary">購物車</a>
+        <a href="login.html" class="btn-primary">會員登入</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-3xl flex-1 px-4 py-8">
+    <h1 class="section-title mb-6">搜尋結果</h1>
+    <p class="text-gray-600 mb-4">從上方導覽列的搜尋框輸入關鍵字，或在此重新搜尋：</p>
+    <form id="search-form" class="flex gap-2 mb-6">
+      <input type="search" id="search-q" placeholder="輸入關鍵字…" class="flex-1 rounded-lg border px-4 py-2" />
+      <button type="submit" class="btn-primary">搜尋</button>
+    </form>
+    <div id="search-results" class="mt-6 space-y-8 hidden">
+      <section>
+        <h2 class="font-medium text-gray-700">課程</h2>
+        <ul id="search-courses" class="mt-2 space-y-2"></ul>
+      </section>
+      <section>
+        <h2 class="font-medium text-gray-700">文章</h2>
+        <ul id="search-articles" class="mt-2 space-y-2"></ul>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t bg-gray-50 py-8">
+    <div class="mx-auto max-w-7xl px-4 text-sm text-gray-500">
+      <p>宏達補習班 · 臺南市中西區中正路88號7樓 · 電話：(06) 2201833</p>
+    </div>
+  </footer>
+  <script src="js/main.js"></script>
+  <script>
+    var courses = [
+      { id: '1', title: '學測全科班', slug: 'gsat-all', category: '高中升學', price: '洽詢', cover: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=225&fit=crop' },
+      { id: '2', title: '指考物理專班', slug: 'ast-physics', category: '分科測驗', price: '洽詢', cover: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=225&fit=crop' },
+      { id: '3', title: '醫科班', slug: 'med-class', category: '醫科', price: '洽詢', cover: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&h=225&fit=crop' },
+      { id: '4', title: '國中會考班', slug: 'junior-high', category: '國中', price: '洽詢', cover: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=400&h=225&fit=crop' }
+    ];
+    var articles = [
+      { title: '學測準備與讀書計畫', slug: 'gsat-tips', date: '2025-03-10', category: '升學' },
+      { title: '分科測驗衝刺要領', slug: 'ast-guide', date: '2025-03-08', category: '升學' },
+      { title: '升學領航者：宏達深耕台南的故事', slug: 'hongda-story', date: '2025-03-05', category: '關於宏達' }
+    ];
+    function doSearch(q) {
+      q = (q || '').trim().toLowerCase();
+      var courseList = document.getElementById('search-courses');
+      var articleList = document.getElementById('search-articles');
+      var resultsEl = document.getElementById('search-results');
+      if (!q) { resultsEl.classList.add('hidden'); return; }
+      resultsEl.classList.remove('hidden');
+      courseList.innerHTML = courses.filter(function(c) { return c.title.toLowerCase().indexOf(q) >= 0 || c.category.toLowerCase().indexOf(q) >= 0; }).map(function(c) {
+        return '<li><a href="course-detail.html?slug=' + c.slug + '" class="flex gap-3 rounded-lg border p-3 hover:bg-gray-50"><img src="' + c.cover + '" alt="" class="h-14 w-24 flex-shrink-0 rounded object-cover" /><div><p class="font-medium">' + c.title + '</p><p class="text-sm text-primary">' + c.price + '</p></div></a></li>';
+      }).join('') || '<li class="text-gray-500">找不到相關課程</li>';
+      articleList.innerHTML = articles.filter(function(a) { return a.title.toLowerCase().indexOf(q) >= 0 || a.category.toLowerCase().indexOf(q) >= 0; }).map(function(a) {
+        return '<li><a href="article.html?slug=' + a.slug + '" class="block rounded-lg border p-3 hover:bg-gray-50"><p class="font-medium">' + a.title + '</p><p class="text-sm text-gray-500">' + a.date + ' · ' + a.category + '</p></a></li>';
+      }).join('') || '<li class="text-gray-500">找不到相關文章</li>';
+    }
+    document.getElementById('search-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      doSearch(document.getElementById('search-q').value);
+    });
+    var qParam = new URLSearchParams(location.search).get('q');
+    if (qParam) {
+      document.getElementById('search-q').value = qParam;
+      var headerQ = document.getElementById('header-search-q');
+      if (headerQ) headerQ.value = qParam;
+      doSearch(qParam);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+:root {
+  --primary: #1a5f4a;
+  --primary-light: #2d8a6e;
+  --accent: #e8b86d;
+}
+body { font-family: system-ui, "Microsoft JhengHei", sans-serif; }
+.btn-primary {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-primary:hover { background: var(--primary-light); }
+.btn-outline {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  font-weight: 500;
+  transition: background 0.2s;
+}
+.btn-outline:hover { background: rgba(26, 95, 74, 0.1); }
+.section-title { font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+@media (min-width: 768px) { .section-title { font-size: 1.875rem; } }
+.carousel-dot { width: 0.5rem; height: 0.5rem; border-radius: 9999px; }
+.carousel-dot.active { background: #fff; }
+.carousel-dot:not(.active) { background: rgba(255,255,255,0.5); }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>課程播放 | 宏達升學教育機構</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { theme: { extend: { colors: { primary: { DEFAULT: '#1a5f4a', light: '#2d8a6e' } } } } }</script>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body class="min-h-screen flex flex-col bg-gray-900 text-white">
+  <header class="flex items-center gap-4 border-b border-gray-700 px-4 py-3">
+    <a href="account-courses.html" class="flex items-center gap-1 text-gray-300 hover:text-white">← 返回我的課程</a>
+    <h1 class="truncate text-lg font-medium">學測全科班</h1>
+  </header>
+
+  <div class="flex flex-1 flex-col lg:flex-row">
+    <div class="flex-1 p-4">
+      <div class="aspect-video overflow-hidden rounded-lg bg-black">
+        <video class="h-full w-full" controls poster="https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=800&h=450&fit=crop">
+          <source src="" type="video/mp4" />
+          您的瀏覽器不支援影片播放。實際可替換為 Mux 播放器。
+        </video>
+      </div>
+      <p class="mt-2 text-sm text-gray-400">單元：國文（影片可於後台設定後替換）</p>
+      <a href="quiz.html" class="mt-4 inline-flex items-center rounded-lg bg-primary px-4 py-2 text-sm font-medium hover:bg-primary-light">考考你</a>
+    </div>
+    <aside class="w-full border-t border-gray-700 lg:w-80 lg:border-l lg:border-t-0">
+      <div class="p-4">
+        <h2 class="font-medium">章節清單</h2>
+        <p class="text-xs text-gray-400">購買與播放截止日：依訂單為準</p>
+        <ul class="mt-4 space-y-2">
+          <li><a href="watch.html?slug=gsat-all" class="flex items-center gap-2 rounded-lg bg-primary/20 p-2 text-white"><span>○</span><span class="flex-1 truncate">國文</span><span class="text-xs text-gray-500">—</span></a><div class="ml-6 text-xs text-gray-500">課後測驗 · <a href="quiz.html" class="text-primary hover:underline">查看分數</a> | 教材下載 <a href="#" class="text-primary hover:underline">Google 雲端</a></div></li>
+          <li><a href="#" class="flex items-center gap-2 rounded-lg p-2 text-gray-300 hover:bg-gray-800"><span>○</span><span class="flex-1 truncate">英文</span><span class="text-xs text-gray-500">—</span></a></li>
+          <li><a href="#" class="flex items-center gap-2 rounded-lg p-2 text-gray-300 hover:bg-gray-800"><span>○</span><span class="flex-1 truncate">數學</span><span class="text-xs text-gray-500">—</span></a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
