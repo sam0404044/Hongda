@@ -13,16 +13,210 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  name         String   @db.VarChar(100)
-  email        String   @unique @db.VarChar(191)
-  passwordHash String   @map("password_hash") @db.VarChar(191)
-  birthday     DateTime?
-  phone        String?  @db.VarChar(30)
-  gender       String?  @db.VarChar(20)
-  role         String   @default("USER") @db.VarChar(20)
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
+  id                  Int                  @id @default(autoincrement())
+  name                String               @db.VarChar(100)
+  email               String               @unique @db.VarChar(191)
+  passwordHash        String               @map("password_hash") @db.VarChar(191)
+  birthday            DateTime?
+  phone               String?              @db.VarChar(30)
+  gender              String?              @db.VarChar(20)
+  role                String               @default("USER") @db.VarChar(20)
+  createdAt           DateTime             @default(now()) @map("created_at")
+  updatedAt           DateTime             @updatedAt @map("updated_at")
+  passwordResetTokens PasswordResetToken[]
+  orders              Order[]
+  quizAttempts        QuizAttempt[]
+  cartItems           CartItem[]
 
   @@map("users")
+}
+
+model PasswordResetToken {
+  id        Int       @id @default(autoincrement())
+  userId    Int       @map("user_id")
+  tokenHash String    @unique @map("token_hash") @db.VarChar(191)
+  expiresAt DateTime  @map("expires_at")
+  usedAt    DateTime? @map("used_at")
+  createdAt DateTime  @default(now()) @map("created_at")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("password_reset_tokens")
+}
+
+model Course {
+  id            Int            @id @default(autoincrement())
+  slug          String         @unique @db.VarChar(191)
+  title         String         @db.VarChar(191)
+  description   String?        @db.Text
+  category      String?        @db.VarChar(100)
+  priceCents    Int            @default(0) @map("price_cents")
+  coverUrl      String?        @map("cover_url") @db.VarChar(500)
+  isPublished   Boolean        @default(true) @map("is_published")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  orderItems    OrderItem[]
+  quizzes       Quiz[]
+  cartItems     CartItem[]
+  homepageSlots HomepageSlot[]
+
+  @@map("courses")
+}
+
+model Order {
+  id         Int         @id @default(autoincrement())
+  orderNo    String      @unique @map("order_no") @db.VarChar(50)
+  userId     Int         @map("user_id")
+  status     String      @default("PAID") @db.VarChar(30)
+  totalCents Int         @default(0) @map("total_cents")
+  paidAt     DateTime?   @map("paid_at")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  updatedAt  DateTime    @updatedAt @map("updated_at")
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  items      OrderItem[]
+
+  @@index([userId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id         Int    @id @default(autoincrement())
+  orderId    Int    @map("order_id")
+  courseId   Int    @map("course_id")
+  quantity   Int    @default(1)
+  priceCents Int    @map("price_cents")
+  order      Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  course     Course @relation(fields: [courseId], references: [id], onDelete: Restrict)
+
+  @@index([orderId])
+  @@index([courseId])
+  @@map("order_items")
+}
+
+model Article {
+  id            Int            @id @default(autoincrement())
+  slug          String         @unique @db.VarChar(191)
+  title         String         @db.VarChar(191)
+  excerpt       String?        @db.VarChar(500)
+  content       String         @db.Text
+  isPublished   Boolean        @default(true) @map("is_published")
+  publishedAt   DateTime?      @map("published_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  homepageSlots HomepageSlot[]
+
+  @@map("articles")
+}
+
+model Instructor {
+  id            Int            @id @default(autoincrement())
+  slug          String         @unique @db.VarChar(191)
+  name          String         @db.VarChar(100)
+  title         String?        @db.VarChar(191)
+  bio           String?        @db.Text
+  avatarUrl     String?        @map("avatar_url") @db.VarChar(500)
+  specialties   Json?
+  isPublished   Boolean        @default(true) @map("is_published")
+  sortOrder     Int            @default(0) @map("sort_order")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  homepageSlots HomepageSlot[]
+
+  @@index([isPublished, sortOrder])
+  @@map("instructors")
+}
+
+model Quiz {
+  id           Int           @id @default(autoincrement())
+  slug         String        @unique @db.VarChar(191)
+  title        String        @db.VarChar(191)
+  courseId     Int?          @map("course_id")
+  questions    Json?
+  isPublished  Boolean       @default(true) @map("is_published")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
+  course       Course?       @relation(fields: [courseId], references: [id], onDelete: SetNull)
+  quizAttempts QuizAttempt[]
+
+  @@index([courseId])
+  @@map("quizzes")
+}
+
+model QuizAttempt {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  quizId    Int      @map("quiz_id")
+  score     Int      @default(0)
+  maxScore  Int      @default(0) @map("max_score")
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quiz      Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([quizId])
+  @@map("quiz_attempts")
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @map("user_id")
+  courseId  Int      @map("course_id")
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+  @@index([courseId])
+  @@map("cart_items")
+}
+
+model SitePage {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique @db.VarChar(191)
+  title     String   @db.VarChar(191)
+  content   String   @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("site_pages")
+}
+
+model Testimonial {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  context     String?  @db.VarChar(191)
+  quote       String   @db.Text
+  courseTitle String?  @map("course_title") @db.VarChar(191)
+  isPublished Boolean  @default(true) @map("is_published")
+  sortOrder   Int      @default(0) @map("sort_order")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@index([isPublished, sortOrder])
+  @@map("testimonials")
+}
+
+model HomepageSlot {
+  id           Int         @id @default(autoincrement())
+  section      String      @db.VarChar(50)
+  itemType     String      @map("item_type") @db.VarChar(30)
+  courseId     Int?        @map("course_id")
+  articleId    Int?        @map("article_id")
+  instructorId Int?        @map("instructor_id")
+  sortOrder    Int         @default(0) @map("sort_order")
+  isActive     Boolean     @default(true) @map("is_active")
+  createdAt    DateTime    @default(now()) @map("created_at")
+  updatedAt    DateTime    @updatedAt @map("updated_at")
+  course       Course?     @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  article      Article?    @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  instructor   Instructor? @relation(fields: [instructorId], references: [id], onDelete: Cascade)
+
+  @@index([section, isActive, sortOrder])
+  @@index([courseId])
+  @@index([articleId])
+  @@index([instructorId])
+  @@map("homepage_slots")
 }
