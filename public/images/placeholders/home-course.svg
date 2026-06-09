@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-label="Temporary course image">
+  <rect width="800" height="500" fill="#eaf4ef"/>
+  <circle cx="656" cy="92" r="126" fill="#f3d59a" opacity="0.8"/>
+  <rect x="86" y="92" width="628" height="316" rx="34" fill="#ffffff" stroke="#c7ddd5"/>
+  <path d="M155 315h220M155 250h360M155 185h270" stroke="#1f6f57" stroke-width="20" stroke-linecap="round"/>
+  <rect x="510" y="238" width="116" height="116" rx="24" fill="#0b3d2e"/>
+  <text x="92" y="444" fill="#0b3d2e" font-family="Arial, sans-serif" font-size="30" font-weight="700">COURSE IMAGE</text>
+</svg>

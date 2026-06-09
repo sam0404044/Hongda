@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" role="img" aria-label="Temporary article image">
+  <rect width="800" height="500" fill="#fbfbf6"/>
+  <path d="M0 380 C160 285 270 445 430 340 S650 205 800 310 V500 H0Z" fill="#dbece5"/>
+  <rect x="96" y="78" width="608" height="344" rx="28" fill="#ffffff" stroke="#d5e4de"/>
+  <rect x="148" y="126" width="250" height="26" rx="13" fill="#0b3d2e"/>
+  <rect x="148" y="194" width="504" height="18" rx="9" fill="#1f6f57" opacity="0.72"/>
+  <rect x="148" y="240" width="452" height="18" rx="9" fill="#1f6f57" opacity="0.52"/>
+  <rect x="148" y="286" width="504" height="18" rx="9" fill="#1f6f57" opacity="0.34"/>
+  <text x="148" y="370" fill="#b8862f" font-family="Arial, sans-serif" font-size="28" font-weight="700">ARTICLE IMAGE</text>
+</svg>

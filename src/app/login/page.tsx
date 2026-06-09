@@ -1,18 +1,10 @@
-import { LoginForm } from "./LoginForm";
+import { StaticModeNotice } from "@/components/StaticModeNotice";
 
-type LoginPageProps = {
-  searchParams: Promise<{
-    registered?: string;
-  }>;
-};
-
-export default async function LoginPage({ searchParams }: LoginPageProps) {
-  const params = await searchParams;
-
+export default function LoginPage() {
   return (
-    <main className="mx-auto flex w-full max-w-md flex-1 flex-col px-4 py-12">
-      <h1 className="section-title mb-6">會員登入</h1>
-      <LoginForm registered={params.registered === "1"} />
-    </main>
+    <StaticModeNotice
+      title="登入功能未在靜態展示版啟用"
+      description="GitHub Pages 無法執行登入 session、API routes 或資料庫連線。若要使用登入、會員中心與後台，請部署到 Vercel、Netlify Functions 或其他支援後端的主機。"
+    />
   );
 }
